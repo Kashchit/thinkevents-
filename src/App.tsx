@@ -9,6 +9,9 @@ import LoadingScreen from "./components/Layout/LoadingScreen";
 import Index from "./pages/Index";
 import EventDetails from "./pages/EventDetails";
 import BookingPage from "./pages/BookingPage";
+import Venues from "./pages/Venues";
+import Organizers from "./pages/Organizers";
+import Categories from "./pages/Categories";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +42,9 @@ const App = () => {
             <Route path="/" element={<Index />} />
             <Route path="/event/:id" element={<EventDetails />} />
             <Route path="/book/:id" element={<BookingPage />} />
+            <Route path="/venues" element={<Venues />} />
+            <Route path="/organizers" element={<Organizers />} />
+            <Route path="/categories" element={<Categories />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
