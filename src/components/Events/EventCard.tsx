@@ -3,6 +3,7 @@ import React from 'react';
 import { Calendar, Clock, MapPin, Ticket } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useNavigate } from 'react-router-dom';
 
 interface EventCardProps {
   event: {
@@ -22,6 +23,8 @@ interface EventCardProps {
 }
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
+  const navigate = useNavigate();
+
   const formatPrice = (price: number) => {
     return `रु ${price.toLocaleString()}`;
   };
@@ -36,9 +39,17 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 
   const availability = getAvailabilityStatus();
 
+  const handleBookNow = () => {
+    navigate(`/book/${event.id}`);
+  };
+
+  const handleCardClick = () => {
+    navigate(`/event/${event.id}`);
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-      <div className="relative">
+      <div className="relative cursor-pointer" onClick={handleCardClick}>
         <img 
           src={`https://images.unsplash.com/${event.image}?w=400&h=200&fit=crop`}
           alt={event.title}
@@ -57,7 +68,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
       </div>
 
       <div className="p-4">
-        <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2">
+        <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2 cursor-pointer hover:text-purple-600" onClick={handleCardClick}>
           {event.title}
         </h3>
         
@@ -83,7 +94,14 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
             </div>
           </div>
           
-          <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
+          <Button 
+            size="sm" 
+            className="bg-purple-600 hover:bg-purple-700"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleBookNow();
+            }}
+          >
             <Ticket className="h-4 w-4 mr-2" />
             Book Now
           </Button>

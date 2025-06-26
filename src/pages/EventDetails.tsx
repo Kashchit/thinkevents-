@@ -4,14 +4,15 @@ import { Calendar, Clock, MapPin, User, Star, Share2, Heart, Ticket } from 'luci
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useNavigate, useParams } from 'react-router-dom';
 import Header from '@/components/Layout/Header';
-import SeatSelection from '@/components/Booking/SeatSelection';
 
 const EventDetails = () => {
-  const [isBookingMode, setIsBookingMode] = useState(false);
+  const navigate = useNavigate();
+  const { id } = useParams();
   
   const event = {
-    id: '1',
+    id: id || '1',
     title: 'Sajjan Raj Vaidya Live in Concert',
     date: 'December 15, 2024',
     time: '7:00 PM',
@@ -43,26 +44,9 @@ const EventDetails = () => {
     ]
   };
 
-  if (isBookingMode) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <Header />
-        <div className="container mx-auto px-4 py-8">
-          <div className="mb-6">
-            <Button 
-              variant="ghost" 
-              onClick={() => setIsBookingMode(false)}
-              className="mb-4"
-            >
-              ← Back to Event Details
-            </Button>
-            <h1 className="text-2xl font-bold text-gray-900">Book Tickets - {event.title}</h1>
-          </div>
-          <SeatSelection />
-        </div>
-      </div>
-    );
-  }
+  const handleBookTickets = () => {
+    navigate(`/book/${event.id}`);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -197,7 +181,7 @@ const EventDetails = () => {
 
                 <Button 
                   className="w-full bg-purple-600 hover:bg-purple-700 h-12 text-lg"
-                  onClick={() => setIsBookingMode(true)}
+                  onClick={handleBookTickets}
                 >
                   <Ticket className="h-5 w-5 mr-2" />
                   Book Tickets
